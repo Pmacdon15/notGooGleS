@@ -1,0 +1,7 @@
+C:\Users\pmacd\Documents\projects\ALOA\exe\notGoogleUSB\notGoogleUSB.pdb
+C:\Users\pmacd\Documents\projects\ALOA\exe\notGoogleUSB\D3DCompiler_47_cor3.dll
+C:\Users\pmacd\Documents\projects\ALOA\exe\notGoogleUSB\PenImc_cor3.dll
+C:\Users\pmacd\Documents\projects\ALOA\exe\notGoogleUSB\PresentationNative_cor3.dll
+C:\Users\pmacd\Documents\projects\ALOA\exe\notGoogleUSB\vcruntime140_cor3.dll
+C:\Users\pmacd\Documents\projects\ALOA\exe\notGoogleUSB\wpfgfx_cor3.dll
+C:\Users\pmacd\Documents\projects\ALOA\exe\notGoogleUSB\notGoogleUSB.exe
