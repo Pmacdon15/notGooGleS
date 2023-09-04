@@ -18,11 +18,8 @@ namespace notGooGleUSB
         {
 
             string userName = userNameTxtBox.Text;
-
-
-
-
-            var frm = new Password();
+            
+            var frm = new Password(userName);
             frm.Show();
             Hide();
 
@@ -63,9 +60,8 @@ namespace notGooGleUSB
             //        }
             //    }
 
-        }
-        }
 
+        }
 
         private void enter(object sender, KeyEventArgs e)
         {

